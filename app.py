@@ -22,7 +22,7 @@ def load_model(model_path='raccoon.tflite'):
     return interpreter
 
 def predict_image_class(image, interpreter = load_model()):
-    class_names = ['a cat', 'a dog', 'a possum', 'a raccoon', 'something else']
+    class_names = ['a cat :cat:', 'a dog :dog:', 'a possum', 'a raccoon :raccoon:', 'something else']
     img_array = load_and_preprocess_image(image)
 
     # Get input and output tensors.
@@ -43,7 +43,6 @@ def main():
     uploaded_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
 
     if uploaded_file is not None:
-
         try:
             # Display the uploaded image
             image = Image.open(uploaded_file)
