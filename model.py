@@ -18,7 +18,6 @@ image_count = len(list(data_dir.glob('*/*.jpg')))
 assert image_count > 0
 
 # Create image parameters:
-batch_size = 32
 img_height = 180
 img_width = 180
 
@@ -28,8 +27,7 @@ train_ds = tf.keras.utils.image_dataset_from_directory(
   validation_split=0.2,
   subset="training",
   seed=123,
-  image_size=(img_height, img_width),
-  batch_size=batch_size
+  image_size=(img_height, img_width)
   )
 
 val_ds = tf.keras.utils.image_dataset_from_directory(
@@ -37,8 +35,7 @@ val_ds = tf.keras.utils.image_dataset_from_directory(
   validation_split=0.2,
   subset="validation",
   seed=123,
-  image_size=(img_height, img_width),
-  batch_size=batch_size
+  image_size=(img_height, img_width)
   )
 
 # Print to user what the class names are:
@@ -63,11 +60,13 @@ model = Sequential([
   layers.MaxPooling2D(),
   layers.Conv2D(32, 3, padding='same', activation='relu'),
   layers.MaxPooling2D(),
-  layers.Conv2D(64, 3, padding='same', activation='relu'),
+  layers.Conv2D(64, 4, padding='same', activation='relu'),
   layers.MaxPooling2D(),
-  layers.Dropout(0.2),
+  layers.Conv2D(128, 4, padding='same', activation='relu'),
+  layers.MaxPooling2D(),
+  layers.Dropout(0.05),
   layers.Flatten(),
-  layers.Dense(128, activation='relu'),
+  layers.Dense(256, activation='relu'),
   layers.Dense(num_classes)
 ])
 
@@ -80,7 +79,7 @@ model.compile(optimizer='adam',
 print(model.summary())
 
 # Fit NN:
-epochs=15
+epochs=20
 history = model.fit(
   train_ds,
   validation_data=val_ds,
