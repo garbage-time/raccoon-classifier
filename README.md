@@ -2,7 +2,7 @@
 
 #### Summary
 
-This is an image classifier built with `Tensorflow`. The model can classify whether something is a raccoon, dog, cat, or something else. This repo is packaged into a `Streamlit` app can be on my blogpost here:
+This is an image classifier built with `Tensorflow`. The model can classify whether something is a raccoon, dog, cat, or something else. This repo is packaged into a `Streamlit` app can be found on my blogpost here:
 
 * https://garbage-time.github.io/posts/raccoon-classifier/
 
