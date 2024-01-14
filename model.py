@@ -2,6 +2,8 @@ import os
 import PIL
 import tensorflow as tf
 import pathlib
+import classes
+import matplotlib.pyplot as plt
 
 from tensorflow import keras
 from tensorflow.keras import layers
@@ -55,6 +57,7 @@ model = Sequential([
   layers.RandomFlip("horizontal", input_shape=(img_height, img_width, 3)),
   layers.RandomRotation(0.1),
   layers.RandomZoom(0.1),
+  classes.GaussianBlur(filter_size=3, sigma=1.),
   layers.Rescaling(1./255, input_shape=(img_height, img_width, 3)),
   layers.Conv2D(16, 3, padding='same', activation='relu'),
   layers.MaxPooling2D(),
@@ -94,3 +97,21 @@ tflite_model = converter.convert()
 # Save the model.
 with open('raccoon.tflite', 'wb') as f:
   f.write(tflite_model)
+
+
+# Plot accuracy per epoch
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)
+plt.plot(history.history['accuracy'], label='Training Accuracy')
+plt.plot(history.history['val_accuracy'], label='Validation Accuracy')
+plt.legend(loc='lower right')
+plt.title('Training and Validation Accuracy')
+
+# Plot loss per epoch
+plt.subplot(1, 2, 2)
+plt.plot(history.history['loss'], label='Training Loss')
+plt.plot(history.history['val_loss'], label='Validation Loss')
+plt.legend(loc='upper right')
+plt.title('Training and Validation Loss')
+
+plt.savefig('training_history.png')
